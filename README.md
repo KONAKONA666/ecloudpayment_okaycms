@@ -33,7 +33,7 @@ design/okay_shop/html/payments_form.tpl
                     publicId: '{$payment_settings['public_id']}',
                     description: 'Оплата в okaycms',
                     amount: {$order->total_price},
-                    currency: 'KZT',
+                    currency: '{$currency->code}',
                     invoiceId: '{$order->id}',
                     accountId: '{$order->email}',
                 },

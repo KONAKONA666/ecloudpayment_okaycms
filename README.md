@@ -41,9 +41,9 @@ design/okay_shop/html/payments_form.tpl
                     $.post('{$ipn_url}', {
                         'invoice': options['invoiceId'],
                     }, function (data) {
-                        
+                        window.location.href = '{$success_url}';
                     });
-					window.location.href = '{$success_url}';
+
                 },
                 function (reason, options) { // fail
                     window.location.href = '{$fail_ur}';

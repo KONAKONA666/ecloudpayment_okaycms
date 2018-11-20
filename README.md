@@ -2,7 +2,7 @@
 
 ## Установка
 
-  * [Скачайте архив модуля](https://github.com/KONAKONA666/ecloudpayment_okaycms/blob/master/Cloudpayment.zip), распакуйте его и скопируйте его содержимое в корневую директорию вашей Okay CMS инсталляции.
+  * [Скачайте архив модуля](https://github.com/KONAKONA666/ecloudpayment_okaycms/blob/master/Cloudpayment.zip), распакуйте его и скопируйте его содержимое в корневая_директорая_Okay CMS/payment.
 
 ## Настройка
 

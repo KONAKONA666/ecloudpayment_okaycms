@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <name>
+        Cloudpayment
+    </name>
+    <settings>
+        <variable>public_id</variable>
+        <name>Public ID</name>
+
+    </settings>
+    <settings>
+        <variable>api_pass</variable>
+        <name>API PASSWORD</name>
+    </settings>
+</module>

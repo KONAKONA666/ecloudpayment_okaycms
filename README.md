@@ -69,3 +69,7 @@ design/okay_shop/html/payments_form.tpl
 
 https://cloudpayments.kz/Docs/Test 
 
+## Валюты
+
+Коды валют должны соответствовать этой ссылке https://cloudpayments.kz/Docs/Directory#currencies
+

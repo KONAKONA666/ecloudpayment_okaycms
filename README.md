@@ -1,13 +1,13 @@
-# Модуль оплаты beGateway для Okay CMS
+# Модуль оплаты CloudPayment для Okay CMS
 
 ## Установка
 
-  * [Скачайте архив модуля](https://github.com/beGateway/okaycms-payment-module/raw/master/okaycms-payment-module.zip), распакуйте его и скопируйте его содержимое в корневую директорию вашей Okay CMS инсталляции.
+  * [Скачайте архив модуля](https://github.com/KONAKONA666/ecloudpayment_okaycms/blob/master/Cloudpayment.zip), распакуйте его и скопируйте его содержимое в корневую директорию вашей Okay CMS инсталляции.
 
 ## Настройка
 
-  * Войдите в личный кабинет администратора, откройте Настройки - Оплата и создайте новый вид оплаты, при этом выбрать BeGateway в качестве платежного модуля
-  * Указать параметры Идентификатор магазина, Секретный ключ магазина, Домен страницы оплаты и выбрать доступные способы оплаты
+  * Войдите в личный кабинет администратора, откройте Настройки - Оплата и создайте новый вид оплаты, при этом выбрать Cloudpayment в качестве платежного модуля
+  * Указать параметры Public Id, API PASSWORD
   * Установить флажок Активен
   * Остальные параметры в соответствии с конкретными предпочтениями
 
@@ -22,31 +22,50 @@ design/okay_shop/html/payments_form.tpl
 Отредактируйте данный шаблон и добавьте в его конец следующий код:
 
 ```html
-{elseif $payment_module == "BeGateway"}
-    {* Способ оплаты BeGateway *}
-    <div class="row">
-    {if $error }
-         <div class="message_error">
-             Ошибка получения токена на оплату! {$error_message|escape}
-         </div>
-    {else}
-         <form class="col-lg-7" method="post" action="{$action}">
-             <input type="hidden" name="token" value="{$token|escape}"/>
-             <input type="submit" name="submit-button" value="{$lang->form_to_pay}" class="button">
-         </form>
-    {/if}
-    </div>
+{elseif $payment_module == "Cloudpayment"}
+
+    <button id="payButton">Открыть форму оплаты</button>
+    <script src="https://widget.cloudpayments.kz/bundles/cloudpayments"></script>
+    <script type="text/javascript">
+        var payHandler = function () {
+            var widget = new cp.CloudPayments();
+            widget.charge({
+                    publicId: '{$payment_settings['public_id']}',
+                    description: 'Оплата в okaycms',
+                    amount: {$order->total_price},
+                    currency: 'KZT',
+                    invoiceId: '{$order->id}',
+                    accountId: '{$order->email}',
+                },
+                function (options) { // success
+                    $.post('{$ipn_url}', {
+                        'invoice': options['invoiceId'],
+                    }, function (data) {
+                        
+                    });
+					window.location.href = '{$success_url}';
+                },
+                function (reason, options) { // fail
+                    window.location.href = '{$fail_ur}';
+                });
+        };
+        $("#payButton").on("click", payHandler); //кнопка "Оплатить"
+    </script>
+
 {/if}
 ```
 
-## Примечания
 
-Разработано и протестировано c OkayCMS 2.0.1
+
+## PUBLIC ID and API PASSWORD
+
+  * Войдите в личный кабинет по адресу https://merchant.cloudpayments.kz
+  * В меню слева выберите пункт Сайты
+  * Создайте или выберите уже существующий магазин
+  * Public ID - это Public Id, Пароль для API - это API PASSWORD
+
 
 ## Тестовые данные
 
-Вы можете использовать приведенные ниже тестовые данные, чтобы протестировать оплату. При переключении в рабочий режим обязательно задайте свои данные, выданные вашим провайдером платежей.
+https://cloudpayments.kz/Docs/Test 
 
-  * Id магазина __361__
-  * Секретный ключ магазина __b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d__
-  * Домен страницы оплаты __checkout.begateway.com__
